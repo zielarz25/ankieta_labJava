@@ -1,13 +1,10 @@
-package server.utils;
+package app.server.utils;
 
 import com.sun.rowset.CachedRowSetImpl;
 
 import javax.sql.rowset.CachedRowSet;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -102,7 +99,7 @@ public class DBUtils {
         // execute sql statements one-by-one
        while (sc.hasNext()) {
            dbStructureSQL = sc.useDelimiter(";").next();
-           System.out.println(dbStructureSQL);
+         //  System.out.println(dbStructureSQL);
            if (!dbStructureSQL.isEmpty()) dbExecuteUpdate(dbStructureSQL);
        }
     }
@@ -128,7 +125,7 @@ public class DBUtils {
 
         try {
             // Connect to DB
-            System.out.println("Select statement: " + queryStmt);
+          //  System.out.println("Select statement: " + queryStmt);
 
             // Create statement
             stmt = conn.createStatement();
@@ -162,7 +159,7 @@ public class DBUtils {
         Statement stmt = null;
 
         try {
-            System.out.println(sqlStmt);
+          //  System.out.println(sqlStmt);
             stmt = conn.createStatement();
             stmt.executeUpdate(sqlStmt);
         } catch (SQLException e) {
@@ -208,12 +205,12 @@ public class DBUtils {
                     String stmt2 = String.format("INSERT INTO odpowiedzi (id_pytania, id_odpowiedzi, tresc_odpowiedzi) " +
                             "VALUES (%s, %s, \"%s\") ON DUPLICATE KEY UPDATE id_pytania=%s, " +
                             "id_odpowiedzi=%s, tresc_odpowiedzi= \"%s\";",i+1, j+1, answer,i+1, j+1, answer);
-                System.out.println(stmt2);
+               // System.out.println(stmt2);
                     dbExecuteUpdate(stmt2);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Odpowiedz: " + answer);
+              //  System.out.println("Odpowiedz: " + answer);
             }
 
         }
