@@ -8,10 +8,11 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
+/**
+ * Main class of server. Creates new threat for each client
+ */
 public class Server {
     private static final int port = 45000;
-
 
     public static void main(String[] args) throws IOException {
 
@@ -22,7 +23,7 @@ public class Server {
         ExecutorService executor = Executors.newCachedThreadPool();
 
         try {
-            // create app.server socket
+            // create server socket
             serverSocket = new ServerSocket(port);
 
             while (true) {
@@ -36,10 +37,6 @@ public class Server {
             serverSocket.close();
             System.out.println("Server socket closed!");
             DBUtils.dbDisconnect();
-
-
-
         }
-
     }
 }

@@ -2,7 +2,6 @@ package app.server.model;
 
 import app.Answers;
 import app.server.utils.DBUtils;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-6
+8
 Tresc pytania nr 1
 2
 Odpowiedz A na pytanie nr 1
@@ -32,6 +32,20 @@ Odpowiedz A na pytanie nr 6
 Odpowiedz B na pytanie nr 6
 Odpowiedc C na pytanie nr 6
 Odpowiedz D na pytanie nr 6
+Tresc pytania nr 7
+4
+Odpowiedz A na pytanie nr 7
+Odpowiedz B na pytanie nr 7
+Odpowiedc C na pytanie nr 7
+Odpowiedz D na pytanie nr 7
+Tresc pytania nr 8
+6
+Odpowiedz A na pytanie nr 8
+Odpowiedz B na pytanie nr 8
+Odpowiedc C na pytanie nr 8
+Odpowiedz D na pytanie nr 8
+Odpowiedz E na pytanie nr 8
+Odpowiedz F na pytanie nr 8
 
 
 

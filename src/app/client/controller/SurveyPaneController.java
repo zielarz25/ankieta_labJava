@@ -5,95 +5,78 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyPaneController {
-    private static final int serverPort = 45000;
     private Socket socket;
-
-    public void setSockets(Socket socket, ObjectInputStream in, ObjectOutputStream out) {
-
-        this.socket = socket;
-        this.in = in;
-        this.out = out;
-        System.out.println("Set socket for survey: " + socket.toString());
-    }
-
-    private ObjectInputStream in = null;
-    private ObjectOutputStream out = null;
-    private InetAddress address = null;
-    @FXML
-    private AnchorPane mainPane;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
+    private int licznik = 0;            // current record counter
+    private int questionId = 0;
+    private List<QuestionsAndAnswers> questionsAndAnswersList;
+    private List<QuestionsAndAnswers> myAnswers = new ArrayList<>();
 
     @FXML
     private VBox vBox;
-
-    private int licznik = 0;
-    private int questionId = 0;
-
 
     @FXML
     void initialize() {
         Platform.runLater(()->showQuestions());
     }
 
-    private List<QuestionsAndAnswers> questionsAndAnswersList;
-    private List<QuestionsAndAnswers> myAnswers = new ArrayList<>();
+
 
     private void showQuestions() {
-        // create socket from address and port
-
         // read question and answers
         questionsAndAnswersList = new ArrayList<QuestionsAndAnswers>();
 
-        //////TODO
         try {
+            // Requests questions from server
             out.writeObject("SHOWQUESTIONS");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         try {
-            System.out.println("trying to read list from stream");
+//            System.out.println("trying to read list from stream");
             questionsAndAnswersList = (List<QuestionsAndAnswers>) in.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         showNextQuestion();
-
     }
 
     // Shows questions and answers
     void showNextQuestion() {
         if (licznik < questionsAndAnswersList.size() - 1) {
+            List<RadioButton> answers = new ArrayList<>();
+            ToggleGroup group = new ToggleGroup();
+
             // spawns question
             Label question = new Label(questionsAndAnswersList.get(licznik).getQuestion());
+            question.setFont(Font.font(null, FontWeight.BOLD, 18));
             questionId = questionsAndAnswersList.get(licznik).getQuestionId();
             vBox.getChildren().add(question);
 
-            List<RadioButton> answers = new ArrayList<>();
-            ToggleGroup group = new ToggleGroup();
             // sprawns answers
             while (questionsAndAnswersList.get(licznik).getQuestionId() == questionId && licznik < questionsAndAnswersList.size() - 1 ) {
 
                 RadioButton answer = new RadioButton(questionsAndAnswersList.get(licznik).getAnswer());
+                answer.setFont(Font.font(null,12));
+                answer.setPadding(new Insets(20,0,10,0));
                 answer.setId(questionsAndAnswersList.get(licznik).getAnswerId()+"");
                 answer.setToggleGroup(group);
                 answers.add(answer);
@@ -105,10 +88,10 @@ public class SurveyPaneController {
             vBox.getChildren().addAll(answers);
             vBox.getChildren().add(button);
 
-            // onfirmed answer
+           // cnfirmed answer
            button.setOnAction(new EventHandler<ActionEvent>() {
                @Override public void handle(ActionEvent e) {
-                                      
+
                    String odpowiedz = ((RadioButton) group.getSelectedToggle()).getId();
 
                    System.out.println("Wyslij odpowiedz numer " + odpowiedz +" na pytanie: " + (questionId - 1));
@@ -124,9 +107,7 @@ public class SurveyPaneController {
                    if (licznik < questionsAndAnswersList.size() - 1 ) {
                        showNextQuestion();
                    } else {
-                       Label label = new Label("Dziękujemy za odpowiedzi");
                        showUserAnswers();
-                       vBox.getChildren().add(label);
                        licznik = 0;
                        questionId = 0;
                    }
@@ -137,6 +118,7 @@ public class SurveyPaneController {
 
     private void showUserAnswers() {
         Label title = new Label("Twoje odpowiedzi: ");
+        title.setFont(Font.font(null, FontWeight.BOLD, 16));
         vBox.getChildren().add(title);
         try {
             out.writeObject("GETMYANSWERS");
@@ -153,11 +135,24 @@ public class SurveyPaneController {
         for(int i = 0; i < myAnswers.size(); i++) {
             Label pytanie = new Label(myAnswers.get(i).getQuestion());
             Label odpowiedz = new Label(myAnswers.get(i).getAnswer());
+            pytanie.setFont(Font.font(null, FontWeight.BOLD, 16));
+            pytanie.setPadding(new Insets(10,0,0,0));
+            odpowiedz.setFont(Font.font(null,12));
+            odpowiedz.setPadding(new Insets(10,0,0,0));
+
             vBox.getChildren().add(pytanie);
             vBox.getChildren().add(odpowiedz);
         }
 
 
+    }
+
+    public void setSockets(Socket socket, ObjectInputStream in, ObjectOutputStream out) {
+
+        this.socket = socket;
+        this.in = in;
+        this.out = out;
+        System.out.println("Set socket for survey: " + socket.toString());
     }
 
 }
