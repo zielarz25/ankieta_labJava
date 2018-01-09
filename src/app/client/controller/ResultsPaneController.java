@@ -1,5 +1,6 @@
 package app.client.controller;
 
+import app.Answers;
 import app.QuestionsAndAnswers;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -56,22 +57,36 @@ public class ResultsPaneController {
     private void showResults() throws IOException, ClassNotFoundException {
 
         numberOfQuestions = getNumberOfQuestions();
-
         for (int i = 0; i < numberOfQuestions; i++) {
-            PieChart chart;
-            int numberOfPossibleAnswers = getNumberOfPossibleAnswers(i+1);
-            System.out.println("Liczba odpowiedzi na pytanie: " + i+1 + ": " + numberOfPossibleAnswers);
-            ObservableList<PieChart.Data> pieChartData = null;
-            pieChartData = FXCollections.observableArrayList(
-                    new PieChart.Data("A", 10),
-                    new PieChart.Data("B", 6),
-                    new PieChart.Data("C", 1));
 
-            chart = new PieChart(pieChartData);
-            chart.setPrefSize(400,400);
-            chart.setTitle("Tytuł");
+            int numberOfPossibleAnswers = getNumberOfPossibleAnswers(i+1);
+            System.out.println("Liczba odpowiedzi na pytanie: " + (i+1) + ": " + numberOfPossibleAnswers);
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+            Answers answer = null;
+            PieChart chart = new PieChart();
+            for (int j = 0; j < numberOfPossibleAnswers; j++) {
+
+                answer = getAnswersStats(i+1, j+1);
+
+                pieChartData.add(new PieChart.Data(answer.getAnswer() + "(" + answer.getAnswersCount() + ")"
+                        , answer.getAnswersCount()));
+
+            }
+
+            chart.setData(pieChartData);
+            pieChartData.removeIf(data -> data.getPieValue() == 0);
+            chart.setId(i+"");
+            chart.setPrefSize(600,600);
+            chart.setTitle(answer.getQuestion());
             vBox.getChildren().add(chart);
+
         }
+    }
+
+    private Answers getAnswersStats(int questionId, int answerId) throws IOException, ClassNotFoundException {
+        out.writeObject("GETANSWERSSTATS:"+ questionId + ":" + answerId);
+        Answers ret = (Answers) in.readObject();
+        return ret;
     }
 
     private int getNumberOfPossibleAnswers(int i) throws IOException, ClassNotFoundException {

@@ -1,5 +1,6 @@
 package app.server;
 
+import app.Answers;
 import app.QuestionsAndAnswers;
 import app.server.model.QuestionsAndAnswersDAO;
 import app.server.model.ResultsDAO;
@@ -110,6 +111,23 @@ public class ServerThread implements Runnable {
                 }
                 try {
                     out.writeObject(numberOfPossibleAnswers+"");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+            else if (czesci_zapytania[0].equals("GETANSWERSSTATS")){
+                Answers answers = null;
+                try {
+                    String questionId = czesci_zapytania[1];
+                    String answerId = czesci_zapytania[2];
+                    answers = ResultsDAO.getAnswersCount(questionId, answerId);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    out.writeObject(answers);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
