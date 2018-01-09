@@ -56,24 +56,16 @@ public class SurveyPaneController {
 
     private void showQuestions() {
         // create socket from address and port
-//        try {
-//            // address = InetAddress.getByName("localhost");
-//            address = InetAddress.getLocalHost();
-//        } catch (UnknownHostException e) {
-//            e.printStackTrace();
-//        }
-
-
-//
-//        try {
-//            in = new ObjectInputStream(socket.getInputStream());
-//            out = new ObjectOutputStream(socket.getOutputStream());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         // read question and answers
         questionsAndAnswersList = new ArrayList<QuestionsAndAnswers>();
+
+        //////TODO
+        try {
+            out.writeObject("SHOWQUESTIONS");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             System.out.println("trying to read list from stream");
@@ -84,22 +76,8 @@ public class SurveyPaneController {
             e.printStackTrace();
         }
 
-
-////////////////////////////
-        //showNextQuestion(1);
         showNextQuestion();
 
-
-///////////////////
-
-
-//        try {
-//            in.close();
-//            out.close();
-//            socket.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     // Shows questions and answers
@@ -130,7 +108,9 @@ public class SurveyPaneController {
             // onfirmed answer
            button.setOnAction(new EventHandler<ActionEvent>() {
                @Override public void handle(ActionEvent e) {
-                    String odpowiedz = ((RadioButton) group.getSelectedToggle()).getId();
+                                      
+                   String odpowiedz = ((RadioButton) group.getSelectedToggle()).getId();
+
                    System.out.println("Wyslij odpowiedz numer " + odpowiedz +" na pytanie: " + (questionId - 1));
 
                    try {
