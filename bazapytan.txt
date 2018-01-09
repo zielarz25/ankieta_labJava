@@ -1,16 +1,13 @@
 6
 Tresc pytania nr 1
-4
+2
 Odpowiedz A na pytanie nr 1
 Odpowiedz B na pytanie nr 1
-Odpowiedc C na pytanie nr 1
-Odpowiedc D na pytanie nr 1
 Tresc pytania nr 2
-4
+3
 Odpowiedz A na pytanie nr 2
 Odpowiedz B na pytanie nr 2
 Odpowiedc C na pytanie nr 2
-Odpowiedz D na pytanie nr 2
 Tresc pytania nr 3
 4
 Odpowiedz A na pytanie nr 3

@@ -4,7 +4,7 @@ CREATE TABLE odpowiedzi (
   tresc_odpowiedzi varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE TABLE odpowiedzi_uzytkownikow (
-  id_uzytkownika int(11) NOT NULL,
+  id_uzytkownika bigint(15) NOT NULL,
   id_pytania int(11) NOT NULL,
   id_odpowiedzi char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
