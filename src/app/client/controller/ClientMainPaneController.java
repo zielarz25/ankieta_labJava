@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientMainPaneController {
     private static final String RESULTS_FXML_PATH = "../view/ResultsPane.fxml";
@@ -18,7 +19,7 @@ public class ClientMainPaneController {
 
     private Socket socket;
     private InetAddress address;
-    private static final int serverPort = 45000;
+    private static int serverPort;
 
     @FXML
     private BorderPane mainBorderPane;
@@ -46,12 +47,26 @@ public class ClientMainPaneController {
     @FXML
     void initialize() {
         try {
-            address = InetAddress.getLocalHost();
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Podaj adres serwera: ");
+            address = InetAddress.getByName(sc.nextLine());
+
+            System.out.println("Podaj port serwera: ");
+            setServerPort(Integer.parseInt(sc.nextLine()));
+
             socket = new Socket(address, serverPort);
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int getServerPort() {
+        return serverPort;
+    }
+
+    public static void setServerPort(int serverPort) {
+        ClientMainPaneController.serverPort = serverPort;
     }
 }

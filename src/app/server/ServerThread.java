@@ -37,7 +37,7 @@ public class ServerThread implements Runnable {
         }
 
         // generate unique id for app client, only with digits, that fits into MySQL BigInt
-        String clientId = (String) UUID.randomUUID().toString().replaceAll("[^0-9]", "").subSequence(0,16);
+        String clientId = (String) UUID.randomUUID().toString().replaceAll("[^0-9]", "").subSequence(0,15);
 
         // checks in loop for client's requests
         while (true) {

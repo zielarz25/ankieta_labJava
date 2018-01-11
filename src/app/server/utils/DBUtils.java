@@ -15,11 +15,12 @@ public class DBUtils {
     private static Connection conn = null;
 
     // Login data
-    private static final String username = "root";
-    private static final String pass = "";
-    private static final String ip = "localhost";
-    private static final String port = "3306";
-    private static final String sid = "BazaAnkieta_marcin_zielinski";
+    private static String username = "root";
+    private static String pass = "";
+    private static String ip = "localhost";
+//    private static String port = "3306";
+    private static String sid = "BazaAnkieta_marcin_zielinski";
+
 
     // Flag if DB exists
     private static boolean dbExists = false;
@@ -30,6 +31,22 @@ public class DBUtils {
 
 
     public static void dbConnect() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Podaj ip bazy: ");
+        setIp(sc.nextLine());
+
+//        System.out.println("Podaj port bazy: ");
+//        setPort(sc.nextLine());
+
+        System.out.println("Podaj nazwe bazy: ");
+        setSid(sc.nextLine());
+
+        System.out.println("Podaj login do bazy: ");
+        setUsername(sc.nextLine());
+
+        System.out.println("Podaj haslo do bazy: ");
+        setPass(sc.nextLine());
+
         // setting Oracle driver
         try {
             Class.forName(JDBC_DRIVER);
@@ -213,6 +230,45 @@ public class DBUtils {
             }
 
         }
+    }
 
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        DBUtils.username = username;
+    }
+
+    public static String getPass() {
+        return pass;
+    }
+
+    public static void setPass(String pass) {
+        DBUtils.pass = pass;
+    }
+
+    public static String getIp() {
+        return ip;
+    }
+
+    public static void setIp(String ip) {
+        DBUtils.ip = ip;
+    }
+
+//    public static String getPort() {
+//        return port;
+//    }
+//
+//    public static void setPort(String port) {
+//        DBUtils.port = port;
+//    }
+
+    public static String getSid() {
+        return sid;
+    }
+
+    public static void setSid(String sid) {
+        DBUtils.sid = sid;
     }
 }
